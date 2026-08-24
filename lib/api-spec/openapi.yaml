@@ -1,0 +1,179 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: calculations
+    description: AI-assisted structural calculations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /calculations/deflection:
+    post:
+      operationId: calculateDeflection
+      tags: [calculations]
+      summary: Calculate beam deflection with two independent AI agents
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeflectionInput"
+      responses:
+        "200":
+          description: Reconciled calculation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeflectionResult"
+        "400":
+          description: Invalid inputs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Calculation service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    DeflectionInput:
+      type: object
+      properties:
+        beamType:
+          type: string
+          enum: [simply_supported, cantilever, aircraft_wing]
+        material:
+          type: string
+        length:
+          type: number
+          exclusiveMinimum: 0
+        width:
+          type: number
+          exclusiveMinimum: 0
+        depth:
+          type: number
+          exclusiveMinimum: 0
+        elasticModulus:
+          type: number
+          exclusiveMinimum: 0
+        load:
+          type: number
+          exclusiveMinimum: 0
+        loadType:
+          type: string
+          enum: [point_center, uniform]
+        units:
+          type: string
+          enum: [metric, imperial]
+        accountTier:
+          type: string
+          enum: [freemium, promium, premium]
+      required:
+        - beamType
+        - material
+        - length
+        - width
+        - depth
+        - elasticModulus
+        - load
+        - loadType
+        - units
+        - accountTier
+    DeflectionAgentResult:
+      type: object
+      properties:
+        value:
+          type: number
+        unit:
+          type: string
+        formula:
+          type: string
+        reasoning:
+          type: string
+        finalAnswerM:
+          type: number
+        rawLog:
+          type: string
+      required: [value, unit, formula, reasoning, finalAnswerM, rawLog]
+    DeflectionResult:
+      type: object
+      properties:
+        deflection:
+          type: number
+        unit:
+          type: string
+        status:
+          type: string
+          enum: [pass, review, fail]
+        confidence:
+          type: number
+        summary:
+          type: string
+        governingNote:
+          type: string
+        physicsAgent:
+          $ref: "#/components/schemas/DeflectionAgentResult"
+        mathAgent:
+          anyOf:
+            - $ref: "#/components/schemas/DeflectionAgentResult"
+            - type: "null"
+        assumptions:
+          type: array
+          items:
+            type: string
+        consensusStatus:
+          type: string
+          enum: [verified, failed, single_agent]
+        consensusSpread:
+          type: number
+        isFlightSafe:
+          type: boolean
+      required:
+        - deflection
+        - unit
+        - status
+        - confidence
+        - summary
+        - governingNote
+        - physicsAgent
+        - mathAgent
+        - assumptions
+        - consensusStatus
+        - consensusSpread
+        - isFlightSafe
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+
