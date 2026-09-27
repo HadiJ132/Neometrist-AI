@@ -1,0 +1,40 @@
+const darkPalette = {
+    text: '#F2F5FA',
+    tint: '#72E5F2',
+    background: '#0A0D13',
+    foreground: '#F2F5FA',
+    card: '#121C2D',
+    cardForeground: '#F2F5FA',
+    primary: '#FF7923',
+    primaryForeground: '#0A0D13',
+    secondary: '#1B2A3E',
+    secondaryForeground: '#AAB5C8',
+    muted: '#172235',
+    mutedForeground: '#8B98AD',
+    accent: '#72E5F2',
+    accentForeground: '#0A0D13',
+    destructive: '#F15B62',
+    destructiveForeground: '#FFFFFF',
+    border: '#2A3A51',
+    input: '#101724',
+    header: '#0D1420',
+    grid: '#1A2A3A',
+    blue: '#294B70',
+    success: '#5DE2A5',
+    borderStrong: '#3D5875',
+    successSurface: '#17382F',
+    failSurface: '#3A2028',
+    guideSurface: '#112B39',
+    guideBorder: '#1F5362',
+    scrim: 'rgba(2, 5, 10, 0.76)',
+    premiumSurface: '#211D3A',
+};
+
+const colors = {
+  ...darkPalette,
+  light: darkPalette,
+  dark: darkPalette,
+  radius: 16,
+};
+
+export default colors;
