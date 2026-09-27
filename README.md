@@ -1,46 +1,72 @@
 # NEOMETRIST
 
-A mobile-first structural engineering tool that uses **dual-AI consensus** to verify beam and wing deflection calculations. Built for field engineers and students who need reliable math away from desktop workstations.
+A mobile-first structural engineering tool that uses **dual-lane intelligence** to verify beam and wing deflection calculations.
 
-> 🎥 [Watch the Demo Video](your-link-here)
+Built for engineering and architecture students who need reliable preliminary results on mobile — without relying on a single AI answer.
 
-## Why This Exists
+> 🎥 [Watch the Demo Video](your-demo-video-link-here)
 
-Single-AI tools hallucinate math. In structural engineering, one wrong number can mean catastrophic failure. Neometrist runs two independent AI agents in parallel—a **Structural Physicist** and a **Mathematical Auditor**—and only accepts results when they agree within 1%.
+---
 
-## Architecture
+## Why Neometrist Exists
 
-| Layer | What It Does |
-|-------|-------------|
-| **Deterministic Pre-Calc Engine** | Node.js/TypeScript solves exact Euler-Bernoulli deflection models before any AI is called. Ground truth baseline. |
-| **Tier-Aware Router** | Freemium/Promium → single AI call. Premium → true dual-agent consensus via `Promise.all`. |
-| **Regex Reconciler** | Extracts `[FINAL_ANSWER_M: ...]` from both agents. If delta ≤ 1% → `VERIFIED CONSENSUS`. Otherwise → `RECONCILIATION FAILED`. |
-| **Safety Demo** | Input exactly `999 kN` to force an intentional agent disagreement and trigger the failure guardrail. |
+Most AI tools give one answer and hope it’s correct. In structural calculations, that’s not good enough.
 
-## RevenueCat Integration
+Neometrist runs two independent lanes on every problem:
 
-| Tier | Price | What You Get |
-|------|-------|--------------|
-| **Freemium** | Free | 10 calcs/month, basic materials |
-| **Promium** | $1.99/mo | 30 calcs, aerospace materials |
-| **Premium Pro** | $4.99/mo | Unlimited, superalloys, dual-agent verification |
+- **Physics Solver** — Closed-form Euler-Bernoulli solution  
+- **Numerical Auditor** — Independent numerical method (composite integration)
 
-Demo reset: Click **[ DEMO RESET ]** to purge local state and test tier flows from scratch.
+Only when both lanes agree within **1%** does the result receive **Verified Consensus**.
+
+---
+
+## Key Features
+
+- Dual-lane verification (Physics + Numerical)
+- Real-time beam deflection visualization
+- Multiple support conditions and load types
+- Material presets for Civil, Architecture, Automotive, and Aerospace
+- Screening limit check (L/360)
+- Calculation history
+- Clean mobile-first interface
+- RevenueCat subscription tiers
+
+---
+
+## Dual-Lane Architecture
+
+| Lane                  | Method                              | Role                          |
+|-----------------------|-------------------------------------|-------------------------------|
+| **Physics Solver**    | Closed-form Euler-Bernoulli         | Primary structural calculation |
+| **Numerical Auditor** | Numerical integration (independent) | Verification lane             |
+| **Reconciler**        | Compares both results               | Issues Verified Consensus if variance ≤ 1% |
+
+---
+
+## Subscription Tiers (RevenueCat)
+
+| Tier         | Price     | What You Get                                      |
+|--------------|-----------|---------------------------------------------------|
+| **Freemium** | Free      | 10 calculations/month, basic materials, Physics lane only |
+| **Promium**  | $1.99/mo  | 30 calculations/month + additional materials      |
+| **Premium**  | $4.99/mo  | Unlimited calculations + Numerical Auditor + full consensus |
+
+---
 
 ## Tech Stack
 
-React 18 · TypeScript · Tailwind · Vite · Node.js · OpenAI API · RevenueCat SDK · HTML5 Canvas
+- React Native / Expo
+- TypeScript
+- OpenAI API (for explanations only)
+- RevenueCat
+- Deterministic calculation engine (closed-form + numerical)
 
-## Quick Start
+---
+
+## Getting Started
 
 ```bash
 git clone https://github.com/HadiJ132/Neometrist-AI.git
 cd Neometrist-AI
 npm install
-
-# Add your keys to .env
-echo "OPENAI_API_KEY=your_key" >> .env
-echo "REVENUECAT_API_KEY=your_key" >> .env
-
-npm run dev
-# Open http://localhost:5173
