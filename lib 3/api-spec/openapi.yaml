@@ -1,0 +1,133 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: agents
+    description: AI review operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /agent-review:
+    post:
+      operationId: reviewBeamWithMathAgent
+      tags: [agents]
+      summary: Review a completed beam result with the Math AI Agent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentReviewRequest"
+      responses:
+        "200":
+          description: Math review
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentReviewResponse"
+        "400":
+          description: Invalid calculation result
+        "403":
+          description: Premium is required
+        "502":
+          description: AI review unavailable
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    AgentReviewRequest:
+      type: object
+      properties:
+        tier:
+          type: string
+        deflection:
+          type: number
+          description: Physics-lane deterministic closed-form result
+        mathDeflection:
+          type: number
+          description: Independent numerical integration result
+        variancePercent:
+          type: string
+          description: Locally computed difference; "undefined" when the primary result is zero
+        consensus:
+          type: boolean
+          description: Locally computed threshold result, never an AI decision
+        physicsTrace:
+          type: string
+          description: Formula, normalized inputs, and deterministic substitution trace
+        mathTrace:
+          type: string
+          description: Independent numerical method, mesh, and convergence trace
+        safetyLimit:
+          type: number
+        safetyPass:
+          type: boolean
+        material:
+          type: string
+        supportCondition:
+          type: string
+        loadPattern:
+          type: string
+        elasticModulus:
+          type: number
+        span:
+          type: number
+        width:
+          type: number
+        depth:
+          type: number
+        appliedLoad:
+          type: number
+        unitSystem:
+          type: string
+      required:
+        - tier
+        - deflection
+        - mathDeflection
+        - variancePercent
+        - consensus
+        - physicsTrace
+        - mathTrace
+        - safetyLimit
+        - safetyPass
+    AgentReviewResponse:
+      type: object
+      properties:
+        summary:
+          type: string
+        realismStatus:
+          type: string
+          enum: [plausible, review, high-concern]
+          description: Advisory OpenAI plausibility classification, not a structural sign-off
+        realismSummary:
+          type: string
+          description: Advisory OpenAI assessment of whether the response has an obvious realism or hold-up concern
+      required:
+        - summary
+        - realismStatus
+        - realismSummary
+
