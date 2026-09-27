@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Environment variables (important)
+.env
+.env.*
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# Build files
+*.apk
+*.aab
+android/app/build/
+ios/build/
+
+# System files
+.DS_Store
+*.log
+npm-debug.*
+
+# Misc
+*.orig.*
