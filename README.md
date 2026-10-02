@@ -4,7 +4,7 @@ A mobile-first structural engineering tool that uses **dual-lane intelligence** 
 
 Built for engineering and architecture students who need reliable preliminary results on mobile — without relying on a single AI answer.
 
-> 🎥 [Watch the Demo Video](your-demo-video-link-here)
+> 🎥 [Watch the Demo Video](https://youtube.com/shorts/U4OlpUFPNgE?feature=share )
 
 ---
 
